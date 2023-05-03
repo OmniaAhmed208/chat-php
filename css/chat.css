@@ -1,5 +1,5 @@
 *{font-family: 'Open Sans', sans-serif;}
-body{min-height: 100vh;background: #b3d8fe;}
+body{min-height: 100vh;background: #b3d8fe;flex-direction: column;}
 a{text-decoration: none;}
 
 .register{
@@ -10,7 +10,6 @@ a{text-decoration: none;}
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
     0 32px 64px -48px rgba(0, 0, 0, 0.5);
 }
-
 .register form{flex-direction: column;gap: 15px;}
 
 .register .inputBox input{background: transparent;border: 2px solid #fff;box-shadow: none;outline: none;font-size: 1.2em;color: #fff;}
