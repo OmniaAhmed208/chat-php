@@ -147,20 +147,6 @@ if( isset( $_POST['submit'] ) ){
                 }
                 else echo "error". mysqli_error($conn);
             }
-
-
-                // if($sql){
-                //     $res = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
-                //     if(mysqli_num_rows($res) > 0){
-                //         $row = mysqli_fetch_assoc($res);
-                //         $_SESSION['user_id'] = $row['user_id'];
-                //     }
-                //     else echo "error". mysqli_error($conn);
-                // }
-                // else{
-                //     echo 'Something went wrong';
-                // }
-
         }
 
         

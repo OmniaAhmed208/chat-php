@@ -13,6 +13,12 @@ if(isset($_POST['submit'])){
     if( mysqli_num_rows($res) > 0){
         $row = mysqli_fetch_assoc($res);
         $_SESSION['user_id'] = $row['user_id']; // $_SESSION[anything] ==> (anything) i will use it in another pages
+        
+        // change status to make it active
+        $sqlStatus = "UPDATE users SET userStatus = 'Active now' WHERE user_id = {$_SESSION['user_id']}";
+        $res2 = mysqli_query($conn, $sqlStatus);
+        if(! $res2) die("Couldn't change the status: " . mysqli_error($conn));
+
         echo '<script>location = "php/users.php"</script>';
     }
 }

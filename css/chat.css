@@ -51,11 +51,12 @@ a{text-decoration: none;}
 :is(.users, .users-list) .details span{font-weight: 500;}
 :is(.users, .users-list) .details p{font-size: 14px;}
 
-.users .search input{width: calc(100% - 50px);border-radius: 5px 0 0 5px;}
+.users .search input[type='search']{width: calc(100% - 50px);border-radius: 5px 0 0 5px;}
+.users .search input:focus{box-shadow: 0 0 0 0 transparent !important;}
 
-.users .search svg{
+.users .search button{
     margin-left: 0px;
-    padding: 10px 12px;
+    padding: 4px 0;
     border-radius: 0 5px 5px 0
 }
 
