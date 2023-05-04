@@ -18,3 +18,5 @@ else{
     header("Location:../index.php");
 }
 ?>
+
+<!-- we made it by Ajax toooooooooo remove the input value after send it (because it is send twise to database) -->

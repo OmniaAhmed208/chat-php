@@ -25,6 +25,8 @@ if(isset($_POST['logout'])){
 $userSession = '';
 $allUsers = '';
 $userStatus = '';
+$you="";
+
 
 if(mysqli_num_rows($res) == 1 && mysqli_num_rows($res) < 2){ // only one user in the all system
     $allUsers = "<p class='text-center fs-5' style='color: #585c5f'>No users are available to chat :(</p>";
@@ -42,6 +44,7 @@ if(mysqli_num_rows($res) == 1 && mysqli_num_rows($res) < 2){ // only one user in
 }
 elseif(mysqli_num_rows($res) > 1){
     while($row = mysqli_fetch_assoc($res)){
+        
         // check status of the user
         if($row['userStatus'] == 'Active now'){
             $userStatus = "<div class='status-dot'><i class='fa fa-circle'></i></div>";
@@ -50,7 +53,28 @@ elseif(mysqli_num_rows($res) > 1){
             $userStatus = "<div class='status-dot offline'><i class='fa fa-circle'></i></div>";
         }
 
-        // show userSession only on the top then in else statement all users except userSession
+        // ____________ get the last message in the chat
+        $sqlLastMsg = "SELECT * FROM messages WHERE (coming_msg_id = {$row['user_id']} OR going_msg_id = {$row['user_id']}) 
+        AND (coming_msg_id = {$_SESSION['user_id']} OR going_msg_id = {$_SESSION['user_id']})
+        ORDER BY msg_id DESC LIMIT 1";
+
+        $resLastMsg = mysqli_query($conn, $sqlLastMsg);
+        if(! $resLastMsg) die("Couldn't select data from table: " . mysqli_error($conn));
+
+        $rowMsg = mysqli_fetch_assoc($resLastMsg);
+        $you="";
+        if(mysqli_num_rows($resLastMsg) > 0 ){
+            $msg = $rowMsg['msg'];
+            ($_SESSION['user_id'] == $rowMsg['going_msg_id']) ? $you = "You: " : $you="";
+        }
+        else{
+            $msg = "No message available";
+        }
+        
+        (strlen($msg) > 25) ? $msg = substr($msg, 0, 25).'...' : $msg = $msg ;
+        
+
+        // ______________ show userSession only on the top then in else statement all users except userSession
         if($_SESSION['user_id'] == $row['user_id']) {
             $userSession .= "
                 <img src='../images/{$row['userImage']}' alt='user'>
@@ -67,7 +91,7 @@ elseif(mysqli_num_rows($res) > 1){
                         <img src='../images/{$row['userImage']}' alt='user'>
                         <div class='details'>
                             <span class='fw-bold'>{$row['fname']} {$row['lname']}</span>
-                            <p>this is the test Message</p>
+                            <p>". $you . $msg ."</p>
                         </div>
                     </div>
                     {$userStatus}
@@ -89,13 +113,14 @@ if(isset($_POST['submit'])){
         
     if(empty($search)){
         while($row = mysqli_fetch_assoc($res)){
+            include "lastMsg.php";
             $allUsers = "
                 <a href='chat.php?user_id={$row['user_id']}' class='d-flex align-items-center mb-4' id='user'>
                     <div class='content d-flex'>
                         <img src='../images/{$row['userImage']}' alt='user'>
                         <div class='details'>
                             <span class='fw-bold'>{$row['fname']} {$row['lname']}</span>
-                            <p>this is the test Message</p>
+                            <p>". $you . $msg ."</p>
                         </div>
                     </div>
                     {$userStatus}
@@ -108,6 +133,7 @@ if(isset($_POST['submit'])){
         $userStatus='';
         
         while($row = mysqli_fetch_array($resSearch)){
+            include "lastMsg.php";
             if($row['userStatus'] == 'Active now'){
                 $userStatus = "<div class='status-dot'><i class='fa fa-circle'></i></div>";
             }
@@ -122,7 +148,7 @@ if(isset($_POST['submit'])){
                             <img src='../images/{$row['userImage']}' alt='user'>
                             <div class='details'>
                                 <span class='fw-bold'>{$row['fname']} {$row['lname']}</span>
-                                <p>this is the test Message</p>
+                               <p>". $you . $msg ."</p>
                             </div>
                         </div>
                         {$userStatus}
@@ -135,6 +161,8 @@ if(isset($_POST['submit'])){
         $allUsers = "<p class='text-center fs-5' style='color: #585c5f'>No found user related to your search</p>";
     }
 }    
+
+
 ?>
 
 
@@ -179,7 +207,6 @@ if(isset($_POST['submit'])){
     
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/all.min.js"></script>
-    <script src="../js/search.js"></script>
 </body>
 </html>
 
