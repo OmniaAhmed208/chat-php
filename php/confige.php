@@ -35,7 +35,7 @@ if( ! $conn){
 //                 email VARCHAR(20) NOT NULL,
 //                 pass VARCHAR(255) NOT NULL,
 //                 userImage VARCHAR(255) NOT NULL,
-//                 status VARCHAR(20) NOT NULL,
+//                 userStatus VARCHAR(20) NOT NULL,
 //                 primary key ( user_id )
 //                 )';
 
@@ -46,6 +46,21 @@ if( ! $conn){
 // }
 // echo "<br> table created :)";
 
+// _______________________
+// $sqlTable2 = 'CREATE TABLE messages (
+//                 msg_id INT NOT NULL AUTO_INCREMENT,
+//                 going_msg_id INT NOT NULL,
+//                 coming_msg_id INT NOT NULL,
+//                 msg VARCHAR(1000) NOT NULL,
+//                 primary key ( msg_id )
+//                 )';
+
+// $res = mysqli_query($conn, $sqlTable2);
+
+// if( ! $res){
+//     die("couldn't create table". mysqli_error);
+// }
+// echo "<br> table created :)";
 
 // mysqli_close($conn);
 ?>
