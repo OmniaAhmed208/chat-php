@@ -8,7 +8,7 @@ $passFormate = "password must contains: <br>
 - at least one number <br>
 - at least one letter <br>
 - at least one of these !@#$% <br>
-- and should be between 8-12 characters";
+- and should be at least 8 characters";
 ?>
 
 <!DOCTYPE html>
@@ -120,12 +120,12 @@ if( isset( $_POST['submit'] ) ){
                 echo "";
             }
             // check password
-            else if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/',$pass)){
+            else if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/',$pass)){
                 $passFormate = "password must contains:
                 - at least one number
                 - at least one letter
                 - at least one character !@#$%
-                - and should be between 8-12 characters";
+                - and should be at least 8 characters";
             }
             else if(in_array($img_ext, $extension) === true){
                 $time = time();
